@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +20,7 @@ public class BookDAOImpl implements BookDAO {
 		int result = 0;
 		try {
 			conn = Connector.open();
-			String sql = "update book set ";
+			String sql = "insert into book(seq_book_b_num.nextval,b_title,b_author,sysdate,b_desc)";
 			sql += " values(seq_book_b_num.nextval,?,?,sysdate,?) ";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, book.get("b_title").toString());
@@ -192,22 +191,6 @@ public class BookDAOImpl implements BookDAO {
 		}
 
 		return null;
-	}
-
-	public static void main(String[] args) {
-		BookDAO bdao = new BookDAOImpl();
-		Map<String, Object> test = new HashMap<>();
-		test.put("b_title", "test");
-		test.put("b_author", "test");
-		test.put("b_desc", "test");
-		test.put("b_num", 2);
-//		bdao.insertBook(test);
-
-//		System.out.println(bdao.selectBookList(test).get(0));
-//		System.out.println(bdao.selectBook(21));
-		int result = bdao.updateBook(test);
-		System.out.println(result);
-
 	}
 
 }

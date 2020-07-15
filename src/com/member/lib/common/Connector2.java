@@ -51,7 +51,7 @@ public class Connector2 {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			try 
+			try { 
 				stmt.close();
 			} catch (SQLException e) {
 				e.printStackTrace();

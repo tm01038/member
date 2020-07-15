@@ -25,6 +25,7 @@ public class Connector {
 		if (conn == null) {
 			try {
 				conn = DriverManager.getConnection(URL, ID, PW);
+				conn.setAutoCommit(false);
 				return conn;
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -44,20 +45,4 @@ public class Connector {
 		conn = null;
 	}
 
-	public static void main(String[] args) {
-		Connection conn = open();
-		try {
-			Statement stmt = conn.createStatement();
-			String sql = "Select l_num, l_lentdate, l_recdate,m_num,b_num from lent";
-			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()) {
-				System.out.println(rs.getInt("l_num"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally {
-			
-		}
-
-	}
 }

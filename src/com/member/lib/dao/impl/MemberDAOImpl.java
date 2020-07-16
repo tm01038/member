@@ -14,7 +14,6 @@ import java.util.Map;
 import com.member.lib.common.Connector;
 import com.member.lib.dao.MemberDAO;
 
-
 public class MemberDAOImpl implements MemberDAO {
 
 	public int insertMember(Map<String, Object> member) {
@@ -23,7 +22,7 @@ public class MemberDAOImpl implements MemberDAO {
 		int result = 0;
 
 		try {
-			String sql = "insert into member(M_num,M_name,M_id,M_pw,M_credate)\r\n"
+			String sql = "insert into member(m_num,m_name,m_id,m_pw,m_credate)\r\n"
 					+ "values(seq_member_m_num.nextval,?,?,?,sysdate)";
 
 			conn = Connector.open();
@@ -52,63 +51,67 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	public int updateMember(Map<String, Object> member) {
-		Connection conn = null;
+		Connection con = null;
 		PreparedStatement ps = null;
 		int result = 0;
-
 		try {
-			conn = Connector.open();
-			String sql = " update member set ";
-			Iterator<String> it = member.keySet().iterator();
-			Map<String, Object> setColm = new LinkedHashMap<>();
-			String whereNum = null;
-			while (it.hasNext()) {
-				String key = it.next();
-				String value = member.get(key).toString();
-				if (key.equals("m_num")) {
-					whereNum = " where " + key + "= ? ";
-					continue;
-				}
-				setColm.put(key, value);
-			}
-			int idxColm = 1;
-			for (String keys : setColm.keySet()) {
-				if (idxColm != setColm.size())
-					sql += keys + "=? ,";
-				sql += keys+ "=? ";
-				idxColm++;
-			}
-			sql += whereNum;
-			ps=conn.prepareStatement(sql);
-			idxColm = 1;
-			for (String keys : setColm.keySet()) {
-				ps.setString(idxColm, member.get(keys).toString());
-				idxColm++;
-			}
-			
+			con = Connector.open();
+			String sql = "update member";
+			sql += " set m_name=?,";
+			sql += " m_pw=?,";
+			sql += " m_id=?";
+			sql += " where m_num=?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, member.get("m_name").toString());
+			ps.setString(2, member.get("m_pw").toString());
+			ps.setString(3, member.get("m_id").toString());
+			ps.setInt(4, (int)member.get("m_num"));
 			result = ps.executeUpdate();
-			conn.rollback();
-			// " update member set m_name='정원돌' where m_num=3 ";
-			return result;
-		} catch (SQLException e) {
+			con.commit();
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (ps != null) {
-				try {
+			try {
+				if (ps != null) {
 					ps.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
 				}
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-			Connector.close();
-			ps = null;
-			conn = null;
 		}
-		return 0;
+		return result;
 	}
 
 	public int deleteMember(int mNum) {
-		return 0;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		int result = 0;
+		try {
+			conn = Connector.open();
+			String sql = " delete from member where m_num= ? ";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, mNum);
+			result = ps.executeUpdate();
+			conn.rollback();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 	}
 
 	public List<Map<String, Object>> selectMemberList(Map<String, Object> member) {
@@ -150,21 +153,54 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	public Map<String, Object> selectMember(int mNum) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Map<String, Object> choiceMember = new HashMap<String, Object>();
+
+		try {
+			conn = Connector.open();
+			String sql = "select m_num,m_name,m_id,m_pw,m_credate from member where m_num= ?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, mNum);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				choiceMember.put("m_num", rs.getInt("m_num"));
+				choiceMember.put("m_name", rs.getString("m_name"));
+				choiceMember.put("m_pw", rs.getString("m_pw"));
+				choiceMember.put("m_credate ", rs.getString("m_credate"));
+				return choiceMember;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+				if (conn != null) {
+					conn.close();
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 		return null;
 	}
 
 	public static void main(String[] args) {
 		MemberDAO member = new MemberDAOImpl();
 		Map<String, Object> map = new HashMap<>();
-		map.put("m_num",3);
-		map.put("m_name","111");
-		map.put("m_id","111");
-		map.put("m_pw","111");
-		map.put("m_credate","111");
+		map.put("m_name", "111");
+		map.put("m_id", "111");
+		map.put("m_pw", "111");
 		List<Map<String, Object>> list = new ArrayList<>();
 
-		int i = member.updateMember(map);
-		System.out.println(i);
+//		member.insertMember(map);
+//		int i = member.updateMember(map);
+		System.out.println(member.deleteMember(1));
 	}
 
 }

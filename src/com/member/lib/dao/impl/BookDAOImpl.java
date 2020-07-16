@@ -20,7 +20,7 @@ public class BookDAOImpl implements BookDAO {
 		int result = 0;
 		try {
 			conn = Connector.open();
-			String sql = "insert into book(seq_book_b_num.nextval,b_title,b_author,sysdate,b_desc)";
+			String sql = "insert into book(b_num,b_title,b_author,sysdate,b_desc)";
 			sql += " values(seq_book_b_num.nextval,?,?,sysdate,?) ";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, book.get("b_title").toString());
@@ -120,14 +120,14 @@ public class BookDAOImpl implements BookDAO {
 
 		try {
 			conn = Connector.open();
-			String sql = "select b_num,B_TITLE,b_author,b_credate,b_desc from book";
+			String sql = "select b_num,b_title,b_author,b_credate,b_desc from book";
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
 				Map<String, Object> map = new HashMap<>();
 				map.put("b_num", rs.getInt("b_num"));
-				map.put("B_TITLE", rs.getString("B_TITLE"));
+				map.put("b_title", rs.getString("b_title"));
 				map.put("b_author", rs.getString("b_author"));
 				map.put("b_credate", rs.getString("b_credate"));
 				map.put("b_desc", rs.getString("b_desc"));
@@ -168,7 +168,7 @@ public class BookDAOImpl implements BookDAO {
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				choiceBook.put("b_num", rs.getInt("b_num"));
-				choiceBook.put("B_TITLE", rs.getString("B_TITLE"));
+				choiceBook.put("b_title", rs.getString("b_title"));
 				choiceBook.put("b_author", rs.getString("b_author"));
 				choiceBook.put("b_credate", rs.getString("b_credate"));
 				choiceBook.put("b_desc", rs.getString("b_desc"));
@@ -192,5 +192,6 @@ public class BookDAOImpl implements BookDAO {
 
 		return null;
 	}
+	
 
 }

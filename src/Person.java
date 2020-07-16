@@ -15,19 +15,17 @@ public class Person implements Comparable<Person>{
 		this.point = point;
 	}
 
-	@Override
 	public String toString() {
 		return "Person [name=" + name + ", age=" + age + ", point=" + point + "]";
 	}
 
 	public int compareTo(Person o) {
-		// TODO Auto-generated method stub
 		if(point<o.point) return -1;
 		if(point>o.point) return 1;
 		return 0;
-		
 //		return point -o.point;
 	}
+	
 	
 	public static void main(String[] args) {
 		List<Person> pList =new ArrayList<>();

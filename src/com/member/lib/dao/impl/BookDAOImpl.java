@@ -20,7 +20,7 @@ public class BookDAOImpl implements BookDAO {
 		int result = 0;
 		try {
 			conn = Connector.open();
-			String sql = "insert into book(b_num,b_title,b_author,sysdate,b_desc)";
+			String sql = "insert into book(b_num,b_title,b_author,b_credate,b_desc)";
 			sql += " values(seq_book_b_num.nextval,?,?,sysdate,?) ";
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, book.get("b_title").toString());
@@ -63,8 +63,9 @@ public class BookDAOImpl implements BookDAO {
 			ps.setString(3, book.get("b_desc").toString());
 			ps.setInt(4, (int) book.get("b_num"));
 			result = ps.executeUpdate();
-			conn.rollback();
-			return result;
+
+			conn.commit();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -93,7 +94,7 @@ public class BookDAOImpl implements BookDAO {
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, bNum);
 			result = ps.executeUpdate();
-			conn.rollback();
+			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -192,6 +193,5 @@ public class BookDAOImpl implements BookDAO {
 
 		return null;
 	}
-	
 
 }

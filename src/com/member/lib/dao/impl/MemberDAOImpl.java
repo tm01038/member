@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,7 +93,7 @@ public class MemberDAOImpl implements MemberDAO {
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, mNum);
 			result = ps.executeUpdate();
-			conn.rollback();
+			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -122,12 +120,13 @@ public class MemberDAOImpl implements MemberDAO {
 
 		try {
 			conn = Connector.open();
-			String sql = "SELECT m_num,m_name,m_id,m_credate FROM MEMBER ";
+			String sql = "SELECT m_pw,m_num,m_name,m_id,m_credate FROM MEMBER ";
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
 				Map<String, Object> map = new HashMap<>();
+				map.put("m_pw", rs.getString("m_pw"));
 				map.put("m_num", rs.getInt("m_num"));
 				map.put("m_name", rs.getString("m_name"));
 				map.put("m_id", rs.getString("m_id"));
@@ -168,7 +167,8 @@ public class MemberDAOImpl implements MemberDAO {
 				choiceMember.put("m_num", rs.getInt("m_num"));
 				choiceMember.put("m_name", rs.getString("m_name"));
 				choiceMember.put("m_pw", rs.getString("m_pw"));
-				choiceMember.put("m_credate ", rs.getString("m_credate"));
+				choiceMember.put("m_id", rs.getString("m_id"));
+				choiceMember.put("m_credate", rs.getString("m_credate"));
 				return choiceMember;
 			}
 		} catch (Exception e) {

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,19 +31,22 @@ public class MemberServlet extends HttpServlet {
 		
 		if("/member/list".equals(uri)) {
 			List<Map<String, Object>> memberList =memberService.selectMemberList(null);
-			str = memberList.toString();
+			request.setAttribute("memberList", memberList);
+			RequestDispatcher rd = request.getRequestDispatcher("/views/member/member-list");
+			rd.forward(request, response);
+			return;
 		}else if("/member/view".equals(uri)) {
 			String m_num = request.getParameter("m_num");
 			if(m_num==null ||"".equals(m_num.trim())) {
-				throw new ServletException("오라오라오라오라오라오라");
+				throw new ServletException("안됩나다");
 			}
 			int mNum = Integer.parseInt(m_num);
 			Map<String, Object> member = memberService.selectMember(mNum);
-			if(member != null) {
-			str=member.toString();
-			}else {
-				str="없는번호";
-			}
+			request.setAttribute("member", member);
+
+			RequestDispatcher rd = request.getRequestDispatcher("/views/member/member-view");
+			rd.forward(request, response);
+			return;
 		}else {
 			str="잘못들어갔어 새꺄";
 		}
@@ -61,6 +65,21 @@ public class MemberServlet extends HttpServlet {
 			member.put("m_pw", mPw);
 			
 			doProcess(response, memberService.insertMember(member).toString());
+		}else if("/member/update".equals(uri)) {
+			String mName =request.getParameter("m_name");
+			String mId =request.getParameter("m_id");
+			String mPw =request.getParameter("m_pw");
+			int mNum = Integer.parseInt(request.getParameter("m_num"));
+			Map<String,Object> member = new HashMap<>();
+			member.put("m_name", mName);
+			member.put("m_id", mId);
+			member.put("m_pw", mPw);
+			member.put("m_num", mNum);
+			doProcess(response, memberService.updateMember(member).toString());
+		}else if("/member/delete".equals(uri)) {
+			int mNum=Integer.parseInt(request.getParameter("m_num"));
+			doProcess(response, memberService.deleteMember(mNum).toString());
+			
 		}
 	}
 

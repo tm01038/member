@@ -41,9 +41,7 @@ public class BookServiceImpl implements BookService {
 	}
 
 	public List<Map<String, Object>> selectBookList(Map<String, Object> book) {
-		List<Map<String, Object>> rList = new ArrayList<Map<String, Object>>();
-		
-		return null;
+		return bookDAO.selectBookList(book);
 	}
 
 	public Map<String, Object> selectBook(int bNum) {

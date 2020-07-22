@@ -63,9 +63,8 @@ public class BookDAOImpl implements BookDAO {
 			ps.setString(3, book.get("b_desc").toString());
 			ps.setInt(4, (int) book.get("b_num"));
 			result = ps.executeUpdate();
-
 			conn.commit();
-
+			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

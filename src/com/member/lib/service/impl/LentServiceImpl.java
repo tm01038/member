@@ -47,4 +47,9 @@ public class LentServiceImpl implements LentService {
 		rMap.put("m_num", 1);
 		System.out.println(lentService.selectLent(1));
 	}
+
+	@Override
+	public List<Map<String, Object>> selectNoLentListBook() {
+		return lentDAO.selectNoLentListBook();
+	}
 }

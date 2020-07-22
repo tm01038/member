@@ -13,7 +13,7 @@ import com.member.lib.common.Connector;
 import com.member.lib.dao.BookDAO;
 
 public class BookDAOImpl implements BookDAO {
-
+	
 	public int insertBook(Map<String, Object> book) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -63,6 +63,7 @@ public class BookDAOImpl implements BookDAO {
 			ps.setString(3, book.get("b_desc").toString());
 			ps.setInt(4, (int) book.get("b_num"));
 			result = ps.executeUpdate();
+
 			conn.commit();
 
 		} catch (Exception e) {
@@ -80,7 +81,7 @@ public class BookDAOImpl implements BookDAO {
 				e.printStackTrace();
 			}
 		}
-		return result;
+		return 0;
 	}
 
 	public int deleteBook(int bNum) {

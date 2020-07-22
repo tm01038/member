@@ -8,9 +8,9 @@ import java.sql.Statement;
 
 public class Connector2 {
 
-	private static final String URL = "jdbc:oracle:thin:@localhost:1521/xe";
-	private static final String ID = "c##test";
-	private static final String PW = "test";
+	private static final String URL = "jdbc:oracle:thin:@localhost:1521/orcl";
+	private static final String ID = "test";
+	private static final String PW = "1234";
 	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
 	private static Connection conn;
 	private static Statement stmt;
@@ -32,31 +32,4 @@ public class Connector2 {
 		return null;
 	}
 
-	public static void main(String[] args) {
-		Connection conn = open();
-		try {
-			stmt = conn.createStatement();
-			String sql = "SELECT *FROM LENT";
-			rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				System.out.println(rs.getInt("l_num"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if(conn!=null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			try { 
-				stmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-		}
-	}
 }

@@ -51,6 +51,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 	public static void main(String[] args) {
 		MemberService memberService = new MemberServiceImpl();
+		
 //		Map<String, Object> rMap = memberService.deleteMember(41);
 		Map<String, Object> rMap = new HashMap<>();
 		rMap.put("m_name","정원영");

@@ -44,4 +44,7 @@ public class Connector {
 		}
 		conn=null;
 	}
+	public static void main(String[] args) {
+		open();
+	}
 }

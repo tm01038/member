@@ -62,7 +62,7 @@ public class MemberServiceImpl implements MemberService {
 		
 
 //		System.out.println(memberService.insertMember(rMap));
-		System.out.println(memberService.selectMember(21));
+		System.out.println(memberService.selectMemberList(rMap));
 		
 	}
 	

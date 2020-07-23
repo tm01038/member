@@ -1,6 +1,5 @@
 package com.member.lib.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,16 +46,6 @@ public class BookServiceImpl implements BookService {
 	public Map<String, Object> selectBook(int bNum) {
 		
 		return bookDAO.selectBook(bNum);
-	}
-	public static void main(String[] args) {
-		BookService bookService = new BookServiceImpl();
-		Map<String, Object> map = new HashMap<>();
-		map.put("b_title","컴퓨터");
-		map.put("b_author","컴퓨터");
-		map.put("b_desc","컴퓨터");
-		System.out.println(bookService.insertBook(map));
-		
-		
 	}
 
 }

@@ -6,9 +6,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Connector {
-	private static final String URL="jdbc:oracle:thin:@localhost:1521/xe";
-	private static final String ID="c##test";
-	private static final String PW="test";
+	private static final String URL="jdbc:oracle:thin:@localhost:1521/orcl";
+	private static final String ID="test";
+	private static final String PW="1234";
 	private static final String DRIVER="oracle.jdbc.driver.OracleDriver";
 	private static Connection conn;
 	static {
@@ -43,5 +43,8 @@ public class Connector {
 			}
 		}
 		conn=null;
+	}
+	public static void main(String[] args) {
+		open();
 	}
 }

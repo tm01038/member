@@ -16,13 +16,13 @@
 			<th>대여자</th>
 			<th>대여도서</th>
 		</tr>
-		<c:forEach items="${lentlist}" var="lent">
+		<c:forEach items="${lentList}" var="lent">
 			<tr>
 				<td>${lent.l_num}</td>
-				<td><a href="/lent/view?l_num=${lent.l_lentdate}">${lent.l_id}</a></td>
+				<td>${lent.l_lentdate}</td>
 				<td>${lent.l_recdate}</td>
-				<td>${lent.l_m_member}</td>
-				<td>${lent.l_credate}</td>
+				<td>${lent.m_name}</td>
+				<td>${lent.b_title}</td>
 			</tr>
 		</c:forEach>
 	</table>

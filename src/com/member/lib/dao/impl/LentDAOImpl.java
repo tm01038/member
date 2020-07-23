@@ -123,14 +123,13 @@ public class LentDAOImpl implements LentDAO {
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				Map<String, Object> map = new HashMap<>();
-				map.put("l.l_num", rs.getInt("l.l_num"));
-				map.put("l.l_lentdate", rs.getString("l.l_lentdate"));
-				map.put("l.l_recdate", rs.getString("l.l_recdate"));
-				map.put("l.m_num", rs.getString("l.m_num"));
-				map.put("l.b_num", rs.getString("l.b_num"));
-				map.put("b.b_num", rs.getString("b.b_num"));
-				map.put("m.m_num", rs.getString("m.m_num"));
-				
+				map.put("l_num", rs.getInt("l_num"));
+				map.put("l_lentdate", rs.getString("l_lentdate"));
+				map.put("l_recdate", rs.getString("l_recdate"));
+				map.put("m_num", rs.getInt("m_num"));
+				map.put("b_num", rs.getInt("b_num"));
+				map.put("m_name", rs.getString("m_name"));
+				map.put("b_title", rs.getString("b_title"));
 				lentList.add(map);
 			}
 		} catch (Exception e) {
@@ -165,8 +164,8 @@ public class LentDAOImpl implements LentDAO {
 				map.put("l_num", rs.getInt("l_num"));
 				map.put("l_lentdate", rs.getString("l_lentdate"));
 				map.put("l_recdate", rs.getString("l_recdate"));
-				map.put("m_num", rs.getString("m_num"));
-				map.put("b_num", rs.getString("b_num"));
+				map.put("m_num", rs.getInt("m_num"));
+				map.put("b_num", rs.getInt("b_num"));
 				return map;
 			}
 		} catch (Exception e) {

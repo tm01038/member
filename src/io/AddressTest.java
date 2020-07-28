@@ -62,5 +62,6 @@ public class AddressTest {
 			}
 		}
 		getInsertSql(keys,list);
+		
 	}
 }
